@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <div id="app">
+        {{messageToLower}}<br/>
+        {{cost}}<br/>
+        {{calculateSalesTax(price)}}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            data: {
+                message: "Hello",
+                price: 25,
+                currency: '$',
+                salesTax: 16
+            },
+            computed: {
+                messageToLower(){
+                    return this.message.toLowerCase();
+                },
+                cost() {
+                    let itemCost = parseFloat(Math.round((this.salesTax/100) * this.price) + this.price).toFixed(2);
+                    let output = "This items costs " + this.currency + itemCost;
+                    output += ' (' + this.currency + this.price + ' excluding salesTax)';
+                    return output
+                }
+            },
+            methods: {
+                calculateSalesTax(price) {
+                    return parseFloat(Math.round((this.salesTax/100) * price) + price).toFixed(2);
+                }
+            }
+        }).$mount("#app");
+    </script>
+</html>

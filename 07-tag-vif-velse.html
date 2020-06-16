@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <div id="app">
+        <div v-if="visible">
+            visible
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            data: {
+                visible : false
+            }
+        }).$mount("#app");
+    </script>
+</html>
