@@ -4,12 +4,19 @@
         <div v-if="visible">
             visible
         </div>
+        <div v-else-if="otherVisible">
+            may visible
+        </div>
+        <div v-else>
+            invisible
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         const app = new Vue({
             data: {
-                visible : false
+                visible : false,
+                otherVisible: true
             }
         }).$mount("#app");
     </script>
