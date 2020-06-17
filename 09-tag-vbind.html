@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <div id="app">
+        <table border="1">
+            <tr v-for="p in people">
+                <td>{{p.name}}</td>
+                <td><a v-bind:href="'mailto:' + p.email">{{p.email}}</a></td>
+                <td>{{formatBalance(p.balance)}}</td>
+                <td>{{formatDate(p.registered)}}</td>
+                <td>{{activeStatus(p)}}</td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="people.js"></script>
+    <script>
+        const app = new Vue({
+            data: {
+                people: people,
+                currency: '$'
+            },
+            methods: {
+                activeStatus(person) {
+                    return person.isActive ? "Active":"Inactive";
+                },
+                formatBalance(balance) {
+                    return this.currency + balance;
+                },
+                formatDate(date) {
+                  let registered = new Date(date);
+                  return registered.toLocaleString();
+                }
+            }
+        }).$mount("#app");
+    </script>
+</html>

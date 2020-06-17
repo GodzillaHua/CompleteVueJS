@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <div id="app">
+        <form>
+            <label for="filterField">
+                Field:
+                <select id="filterField" v-model="filterField">
+                    <option value="">Disable Filters</option>
+                    <option value="isActive">Active Users</option>
+                    <option value="name">Name</option>
+                    <option value="email">Email</option>
+                    <option value="balance">Balance</option>
+                    <option value="registered">Date registered</option>
+                </select>
+            </label>
+            <label for="filterQuery">
+                Query:
+                <input id="filterQuery" type="text" v-model="filterQuery">
+            </label>
+            <span>
+                Active:
+                <label for="userStateActive">
+                    Yes:
+                    <input type="radio" id="userStateActive" v-bind:value="true" checked="checked" v-model="filterUserState">
+                </label>
+                <label for="userStateInActive">
+                    No:
+                    <input type="radio" id="userStateInActive" v-bind:value="false" v-model="filterUserState">
+                </label>
+            </span>
+        </form>
+        <table border="1">
+            <tr v-for="p in people" v-show="filterPerson(p)">
+                <td>{{p.name}}</td>
+                <td><a v-bind:href="'mailto:' + p.email">{{p.email}}</a></td>
+                <td>{{formatBalance(p.balance)}}</td>
+                <td>{{formatDate(p.registered)}}</td>
+                <td>{{activeStatus(p)}}</td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="people.js"></script>
+    <script>
+        const app = new Vue({
+            data: {
+                people: people,
+                currency: '$',
+                filterField: '',
+                filterQuery: '',
+                filterUserState: ''
+            },
+            methods: {
+                activeStatus(person) {
+                    return person.isActive ? "Active":"Inactive";
+                },
+                formatBalance(balance) {
+                    return this.currency + balance;
+                },
+                formatDate(date) {
+                  let registered = new Date(date);
+                  return registered.toLocaleString();
+                },
+                filterPerson(person) {
+                    if (this.filterUserState !== '') {
+                        return this.filterUserState === person.isActive;
+                    }
+                    if (this.filterField) {
+                        if(this.filterField === 'isActive') {
+                            return  this.filterUserState === person.isActive;
+                        } else {
+                            let query = this.filterQuery.toLowerCase();
+                            let field =  person[this.filterField].toString().toLowerCase();
+                            return field.includes(query);
+                        }
+                    }
+                    return true;
+                }
+            }
+        }).$mount("#app");
+    </script>
+</html>
